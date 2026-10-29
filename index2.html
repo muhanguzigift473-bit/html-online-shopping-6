@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MODE — Fashion Magazine</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #222;
+      background: #f7f4f0;
+    }
+
+    header {
+      padding: 2rem;
+      text-align: center;
+      background: #171717;
+      color: white;
+    }
+
+    header h1 {
+      margin: 0;
+      font-family: Georgia, serif;
+      font-size: 3rem;
+      letter-spacing: 0.2em;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 1rem;
+      background: white;
+      border-bottom: 1px solid #ddd;
+    }
+
+    nav a {
+      color: #222;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: #a34343;
+    }
+
+    main {
+      max-width: 900px;
+      min-height: 60vh;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    article {
+      padding: 2rem;
+      background: white;
+      box-shadow: 0 4px 18px #00000010;
+    }
+
+    article h2 {
+      font-family: Georgia, serif;
+      font-size: 2rem;
+    }
+
+    footer {
+      padding: 1.5rem;
+      text-align: center;
+      background: #171717;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>MODE</h1>
+    <p>Fashion, culture &amp; creative living</p>
+  </header>
+
+  <nav id="navigation" aria-label="Magazine sections"></nav>
+  <main id="content" aria-live="polite"></main>
+
+  <footer>MODE Magazine · Issue 01</footer>
+
+  <script>
+    // Each entry represents a magazine page.
+    const pages = {
+      home: {
+        title: "Welcome to MODE",
+        text: "Explore the people, ideas, and designs shaping fashion today."
+      },
+      trends: {
+        title: "The New Season",
+        text: "This season pairs relaxed tailoring with expressive color. Try a structured jacket with simple basics, or add one bright accessory to a neutral outfit."
+      },
+      designers: {
+        title: "Designer Spotlight",
+        text: "Meet emerging designers who are rethinking materials, craftsmanship, and the stories behind their collections."
+      },
+      street: {
+        title: "Street Style",
+        text: "From vintage layers to bold sneakers, street style turns everyday dressing into personal expression. Look for combinations that feel useful and distinctly yours."
+      },
+      beauty: {
+        title: "Beauty Notes",
+        text: "Fresh skin, soft color, and individual details lead this issue’s beauty edit. The best look is one that feels comfortable and personal."
+      }
+    };
+
+    const navigation = document.querySelector("#navigation");
+    const content = document.querySelector("#content");
+
+    // Build a link for every page.
+    for (const [id, page] of Object.entries(pages)) {
+      const link = document.createElement("a");
+      link.href = `#${id}`;
+      link.textContent = page.title.replace("Welcome to ", "");
+      navigation.appendChild(link);
+    }
+
+    function showPage() {
+      const pageId = location.hash.slice(1) || "home";
+      const page = pages[pageId] || pages.home;
+
+      content.innerHTML = `
+        <article>
+          <h2>${page.title}</h2>
+          <p>${page.text}</p>
+        </article>
+      `;
+
+      // Highlight the link for the current page.
+      navigation.querySelectorAll("a").forEach(link => {
+        link.classList.toggle("active", link.hash === `#${pageId}`);
+      });
+    }
+
+    // Update content when a magazine link is clicked or the URL hash changes.
+    window.addEventListener("hashchange", showPage);
+    showPage();
+  </script>
+</body>
+</html>
